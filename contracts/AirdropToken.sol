@@ -11,6 +11,11 @@ contract AirdropToken is ERC20, Ownable {
         _mint(msg.sender, 100_000 * 10 ** decimals());
     }
 
+    /**
+     * Creates a `amount` of tokens and assigns them to `to`, by transferring it from address(0).
+     * @param to The address receiving tokens
+     * @param amount The amount of tokens to create
+     */
     function mint(address to, uint256 amount) public onlyOwner {
         _mint(to, amount);
     }

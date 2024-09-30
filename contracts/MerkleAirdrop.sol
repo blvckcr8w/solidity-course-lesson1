@@ -26,6 +26,11 @@ contract MerkleAirdrop {
         PRECISION = 10 ** IERC20Metadata(token).decimals();
     }
 
+    /**
+     * Claims airdrop on behalf of `to`
+     * @param proof The merkle tree proof for the claiming user
+     * @param to The address of the token receiver. Use same address as msg.sender to claim to the same wallet
+     */
     function claim(bytes32[] memory proof, address to) external {
         require(totalClaimed < MAX_CLAIMS, "MERKLE_AIRDROP: MAX CLAIMS");
         require(!hasClaimed[msg.sender], "MERKLE_AIRDROP: ALREADY CLAIMED");
