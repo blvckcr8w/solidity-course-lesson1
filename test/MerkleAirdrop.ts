@@ -65,5 +65,18 @@ describe("MerkleAirdrop", function () {
             ).to.be.revertedWith("MERKLE_AIRDROP: ALREADY CLAIMED");
 
         });
+
+        it("Maximum amount of claims is capped", async function () {
+            const { merkleAirdrop, tree } = await loadFixture(deployMerkleAirdropFixture);
+
+            const [user1, user2, user3, user4] = await hre.ethers.getSigners();
+
+            await merkleAirdrop.connect(user1).claim(tree.getProof(0), user1.address);
+            await merkleAirdrop.connect(user2).claim(tree.getProof(1), user2.address);
+            await merkleAirdrop.connect(user3).claim(tree.getProof(2), user3.address);
+            await expect(
+                merkleAirdrop.connect(user4).claim(tree.getProof(3), user4.address)
+            ).to.be.revertedWith("MERKLE_AIRDROP: MAX CLAIMS");
+        });
     });
 });
